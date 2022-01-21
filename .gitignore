@@ -1,0 +1,7 @@
+node_modules
+dist
+src/types
+.data
+package-lock.json
+yarn.lock
+types

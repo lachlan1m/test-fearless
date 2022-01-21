@@ -1,0 +1,68 @@
+specVersion: 0.2.0
+name: fearless
+version: 1.0.0
+description: Fearless SubQuery project
+repository: https://github.com/soramitsu/fearless-subquery
+schema:
+  file: ./schema.graphql
+network:
+  genesisHash: '0xe143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e'
+  endpoint: wss://westend.api.onfinality.io/public-ws
+dataSources:
+  - kind: substrate/Runtime
+    startBlock: 8621400
+    mapping:
+      file: ./dist/index.js
+      handlers:
+        - handler: handleHistoryElement
+          kind: substrate/CallHandler
+        - handler: handleReward
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Reward
+        - handler: handleRewarded
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Rewarded
+        - handler: handleSlash
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slash
+        - handler: handleSlashed
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slashed
+        - handler: handleBonded
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Bonded
+        - handler: handleUnbonded
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Unbonded
+        - handler: handleTransfer
+          kind: substrate/EventHandler
+          filter:
+            module: balances
+            method: Transfer
+        - handler: handleTransferKeepAlive
+          kind: substrate/EventHandler
+          filter:
+            module: balances
+            method: transfer_keep_alive
+        - handler: handleNewEra
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: StakingElection
+        - handler: handleStakersElected
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: StakersElected
